@@ -44,6 +44,8 @@ public class AddFriend extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Wrong email format", Toast.LENGTH_SHORT).show();
                 } else if (isValidMobile(tel) == false) {
                     Toast.makeText(getApplicationContext(), "Wrong phone number format", Toast.LENGTH_SHORT).show();
+                } else if (dbHelper.isExist(emailAdd, tel)) {
+                    Toast.makeText(getApplicationContext(), "Name, email or phone number already exist", Toast.LENGTH_SHORT).show();
                 } else {
                     dbHelper.insertFriend(fname, lname, emailAdd, tel);
                     Intent i = new Intent(view.getContext(), DisplayFriends.class);

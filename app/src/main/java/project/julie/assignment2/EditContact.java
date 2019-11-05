@@ -32,10 +32,10 @@ public class EditContact extends AppCompatActivity {
         email = findViewById(R.id.email_edit);
         phone = findViewById(R.id.phoneNo_edit);
 
-        Intent i  = getIntent();
+        Intent i = getIntent();
         String firstName = i.getStringExtra("keyFirstName");
         String lastName = i.getStringExtra("keyLastName");
-        String email1= i.getStringExtra("keyEmail");
+        String email1 = i.getStringExtra("keyEmail");
         String phone1 = i.getStringExtra("keyPhone");
         id = i.getIntExtra("keyId", -1);
 

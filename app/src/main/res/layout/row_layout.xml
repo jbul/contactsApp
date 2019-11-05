@@ -8,12 +8,16 @@
         android:id="@+id/firstName_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
         android:text="TextView"/>
     <TextView
         android:id="@+id/lastName_layout"
         android:layout_toRightOf="@+id/firstName_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
         android:layout_marginLeft="5dp"
         android:text="TextView2"/>
 
