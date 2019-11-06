@@ -40,20 +40,22 @@ public class AddFriend extends AppCompatActivity {
 
                 if (fname.isEmpty() || lname.isEmpty() || emailAdd.isEmpty() || tel.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
-                } else if (isValidEmail(emailAdd) == false) {
+                } else if (!isValidEmail(emailAdd)) {
                     Toast.makeText(getApplicationContext(), "Wrong email format", Toast.LENGTH_SHORT).show();
-                } else if (isValidMobile(tel) == false) {
+                } else if (!isValidMobile(tel)) {
                     Toast.makeText(getApplicationContext(), "Wrong phone number format", Toast.LENGTH_SHORT).show();
-                } else if (dbHelper.isExist(emailAdd, tel)) {
-                    Toast.makeText(getApplicationContext(), "Name, email or phone number already exist", Toast.LENGTH_SHORT).show();
                 } else {
-                    dbHelper.insertFriend(fname, lname, emailAdd, tel);
-                    Intent i = new Intent(view.getContext(), DisplayFriends.class);
-                    startActivity(i);
+                    String insertResult = dbHelper.insertFriend(fname, lname, emailAdd, tel);
+
+                    if (insertResult.startsWith("User successfully")) {
+                        Intent i = new Intent(view.getContext(), DisplayFriends.class);
+                        startActivity(i);
+                    } else {
+                        Toast.makeText(getApplicationContext(), insertResult, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
-
     }
 
     private static boolean isValidEmail(CharSequence target) {

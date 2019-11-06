@@ -4,10 +4,19 @@
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:layout_margin="16dp">
 
+    <ImageView
+        android:id="@+id/imgPers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_person_black_24dp"
+        android:layout_alignParentLeft="true"/>
+
     <TextView
         android:id="@+id/firstName_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/imgPers"
         android:textStyle="bold"
         android:textColor="@color/colorPrimaryDark"
         android:text="TextView"/>
@@ -21,12 +30,22 @@
         android:layout_marginLeft="5dp"
         android:text="TextView2"/>
 
+    <ImageView
+        android:id="@+id/emailImage"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_below="@id/imgPers"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/ic_email_black_24dp" />
+
     <TextView
         android:id="@+id/email_layout"
         android:layout_below="@id/firstName_layout"
+        android:layout_toRightOf="@id/imgPers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
         android:text="TextView3"/>
 
     <ImageView
@@ -38,9 +57,18 @@
         android:scaleType="fitEnd"
         android:src="@drawable/editbutton"/>
 
+    <ImageView
+        android:id="@+id/phoneImg"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_below="@id/emailImage"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/ic_local_phone_black_24dp" />
+
     <TextView
         android:id="@+id/phone_layout"
         android:layout_below="@id/email_layout"
+        android:layout_toRightOf="@id/phoneImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"

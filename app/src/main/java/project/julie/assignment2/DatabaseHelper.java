@@ -3,12 +3,10 @@ package project.julie.assignment2;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.text.TextUtils;
 import android.util.Log;
-import android.util.Patterns;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +14,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DB_NAME = "friends_db";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 3;
     private static final String TABLE_NAME = "friends";
     private static final String KEY_ID = "id";
     private static final String FIRSTNAME = "firstName";
@@ -33,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sqlstatement = "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " integer primary key autoincrement unique, " + FIRSTNAME + " text ," + LASTNAME + " text," +
-                EMAIL + " text unique," + PHONE + " text unique" + ")";
+                EMAIL + " text unique," + PHONE + " text unique" + ", UNIQUE(" + FIRSTNAME + "," + LASTNAME +"))";
         sqLiteDatabase.execSQL(sqlstatement);
         sqLiteDatabase.execSQL("INSERT INTO " + TABLE_NAME + " (" + FIRSTNAME + ", " + LASTNAME + ", " + EMAIL + ", " + PHONE + ") VALUES (\"olivier\", \"donnadei\", \"oooo@oo.com\", 12345)");
         Log.i("", "Insert stuff");
@@ -47,19 +45,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void insertFriend(String firstName, String lastName, String email, String phone) {
+    public String insertFriend(String firstName, String lastName, String email, String phone) {
+
         db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(FIRSTNAME, firstName);
-        contentValues.put(LASTNAME, lastName);
-        contentValues.put(EMAIL, email);
-        contentValues.put(PHONE, phone);
-        if(!isExist(email, phone)) {
-            db.insert(TABLE_NAME, null, contentValues);
-        }else {
-            System.out.println("DUPLICATE...");
+
+        try {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(FIRSTNAME, firstName);
+            contentValues.put(LASTNAME, lastName);
+            contentValues.put(EMAIL, email);
+            contentValues.put(PHONE, phone);
+//        if(!isExist(email, phone)) {
+            db.insertOrThrow(TABLE_NAME, null, contentValues);
+//        }else {
+//            System.out.println("DUPLICATE...");
+//        }
+        } catch (SQLiteConstraintException e) {
+            return e.getMessage();
+        } finally {
+            db.close();
         }
-        //db.close();
+        return "User successfully added";
     }
 
     public boolean isExist(String email, String phone) {

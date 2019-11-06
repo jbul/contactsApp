@@ -19,7 +19,6 @@ public class EditContact extends AppCompatActivity {
     private int id;
     private DatabaseHelper databaseHelper;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +42,6 @@ public class EditContact extends AppCompatActivity {
         lname.setText(lastName);
         email.setText(email1);
         phone.setText(phone1);
-
-
     }
 
     public void update(View view) {
