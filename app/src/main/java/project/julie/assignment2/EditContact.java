@@ -50,9 +50,9 @@ public class EditContact extends AppCompatActivity {
         String lnameUpdated = lname.getText().toString();
         String emailUpdated = email.getText().toString();
         String phoneUpdated = phone.getText().toString();
-        if (id > 0) {
-            databaseHelper.update(id, fnameUpdated, lnameUpdated, emailUpdated, phoneUpdated);
-        }
+//        if (id > 0) {
+//            String updateFriend = databaseHelper.update(id, fnameUpdated, lnameUpdated, emailUpdated, phoneUpdated);
+//        }
 
         if (fnameUpdated.isEmpty() || lnameUpdated.isEmpty() || emailUpdated.isEmpty() || phoneUpdated.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show();
@@ -61,8 +61,16 @@ public class EditContact extends AppCompatActivity {
         } else if (isValidMobile(phoneUpdated) == false) {
             Toast.makeText(getApplicationContext(), "Wrong phone number format", Toast.LENGTH_SHORT).show();
         } else {
-            Intent i = new Intent(view.getContext(), DisplayFriends.class);
-            startActivity(i);
+            if (id > 0) {
+                String updateFriend = databaseHelper.update(id, fnameUpdated, lnameUpdated, emailUpdated, phoneUpdated);
+
+                if (updateFriend.startsWith("User successfully")) {
+                    Intent i = new Intent(view.getContext(), DisplayFriends.class);
+                    startActivity(i);
+                } else {
+                    Toast.makeText(getApplicationContext(), updateFriend, Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
 

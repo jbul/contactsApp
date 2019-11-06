@@ -31,7 +31,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         String sqlstatement = "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " integer primary key autoincrement unique, " + FIRSTNAME + " text ," + LASTNAME + " text," +
-                EMAIL + " text unique," + PHONE + " text unique" + ", UNIQUE(" + FIRSTNAME + "," + LASTNAME +"))";
+                EMAIL + " text unique," + PHONE + " text unique" + ", UNIQUE(" + FIRSTNAME + "," + LASTNAME + "))";
         sqLiteDatabase.execSQL(sqlstatement);
         sqLiteDatabase.execSQL("INSERT INTO " + TABLE_NAME + " (" + FIRSTNAME + ", " + LASTNAME + ", " + EMAIL + ", " + PHONE + ") VALUES (\"olivier\", \"donnadei\", \"oooo@oo.com\", 12345)");
         Log.i("", "Insert stuff");
@@ -42,7 +42,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(sqLiteDatabase);
-
     }
 
     public String insertFriend(String firstName, String lastName, String email, String phone) {
@@ -55,26 +54,32 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             contentValues.put(LASTNAME, lastName);
             contentValues.put(EMAIL, email);
             contentValues.put(PHONE, phone);
-//        if(!isExist(email, phone)) {
             db.insertOrThrow(TABLE_NAME, null, contentValues);
-//        }else {
-//            System.out.println("DUPLICATE...");
-//        }
         } catch (SQLiteConstraintException e) {
-            return e.getMessage();
+            return "Name, email or phone already exist";
         } finally {
             db.close();
         }
         return "User successfully added";
     }
 
-    public boolean isExist(String email, String phone) {
-        //String query = "SELECT " + EMAIL +  " from " + TABLE_NAME + " WHERE " +  EMAIL + " ='" + email + "' LIMIT 1";
-        //String query2 ="SELECT * FROM " + TABLE_NAME + " WHERE " + EMAIL + " like ? or " + PHONE + " like ?", new String[]{"%" + email + "%", "%" + phone + "%"};
-        //Cursor row = db.rawQuery(query, null);
-        Cursor row = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE " + EMAIL + " like ? or " + PHONE + " like ?", new String[]{"%" + email + "%", "%" + phone + "%"});
-        return row.moveToFirst();
+    public String update(int id, String fname, String lastName, String email, String phone) {
+        db = this.getWritableDatabase();
+        try {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(DatabaseHelper.FIRSTNAME, fname);
+            contentValues.put(DatabaseHelper.LASTNAME, lastName);
+            contentValues.put(DatabaseHelper.EMAIL, email);
+            contentValues.put(DatabaseHelper.PHONE, phone);
+            int i = db.update(DatabaseHelper.TABLE_NAME, contentValues, DatabaseHelper.KEY_ID + " = " + id, null);
+        } catch (SQLiteConstraintException e) {
+            return "Name, email or phone already exist";
+        } finally {
+            db.close();
+        }
+        return "User successfully added";
     }
+
 
     public List<Friend> allFriends() {
         List<Friend> friends = new ArrayList<>();
@@ -102,7 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         List<Friend> friends = null;
         try {
             SQLiteDatabase sqLiteDatabase = getReadableDatabase();
-            Cursor cursor = sqLiteDatabase.rawQuery("select * from " + TABLE_NAME + " where " + LASTNAME + " like ? or " + EMAIL + " like ? or " +  PHONE + " like ? or " + FIRSTNAME + " like ?"
+            Cursor cursor = sqLiteDatabase.rawQuery("select * from " + TABLE_NAME + " where " + LASTNAME + " like ? or " + EMAIL + " like ? or " + PHONE + " like ? or " + FIRSTNAME + " like ?"
                     , new String[]{"%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%"});
             if (cursor.moveToFirst()) {
                 friends = new ArrayList<>();
@@ -122,14 +127,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return friends;
     }
 
-    public int update(int id, String fname, String lastName, String email, String phone) {
-        db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DatabaseHelper.FIRSTNAME, fname);
-        contentValues.put(DatabaseHelper.LASTNAME, lastName);
-        contentValues.put(DatabaseHelper.EMAIL, email);
-        contentValues.put(DatabaseHelper.PHONE, phone);
-        int i = db.update(DatabaseHelper.TABLE_NAME, contentValues, DatabaseHelper.KEY_ID + " = " + id, null);
-        return i;
-    }
+
 }
+
