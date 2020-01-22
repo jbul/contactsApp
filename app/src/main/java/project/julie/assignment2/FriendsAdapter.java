@@ -91,9 +91,6 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.MyViewHo
             phone = itemView.findViewById(R.id.phone_layout);
             id = itemView.findViewById(R.id.id_layout);
         }
-
-
-
     }
 
 

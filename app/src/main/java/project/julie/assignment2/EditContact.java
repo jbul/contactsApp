@@ -14,8 +14,6 @@ import android.widget.Toast;
 public class EditContact extends AppCompatActivity {
 
     private EditText fname, lname, email, phone;
-    private Button editBtn;
-
     private int id;
     private DatabaseHelper databaseHelper;
 
@@ -50,9 +48,6 @@ public class EditContact extends AppCompatActivity {
         String lnameUpdated = lname.getText().toString();
         String emailUpdated = email.getText().toString();
         String phoneUpdated = phone.getText().toString();
-//        if (id > 0) {
-//            String updateFriend = databaseHelper.update(id, fnameUpdated, lnameUpdated, emailUpdated, phoneUpdated);
-//        }
 
         if (fnameUpdated.isEmpty() || lnameUpdated.isEmpty() || emailUpdated.isEmpty() || phoneUpdated.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please fill all the fields", Toast.LENGTH_SHORT).show();

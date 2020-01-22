@@ -33,8 +33,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sqlstatement = "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " integer primary key autoincrement unique, " + FIRSTNAME + " text ," + LASTNAME + " text," +
                 EMAIL + " text unique," + PHONE + " text unique" + ", UNIQUE(" + FIRSTNAME + "," + LASTNAME + "))";
         sqLiteDatabase.execSQL(sqlstatement);
-        sqLiteDatabase.execSQL("INSERT INTO " + TABLE_NAME + " (" + FIRSTNAME + ", " + LASTNAME + ", " + EMAIL + ", " + PHONE + ") VALUES (\"olivier\", \"donnadei\", \"oooo@oo.com\", 12345)");
-        Log.i("", "Insert stuff");
     }
 
     @Override
@@ -47,7 +45,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public String insertFriend(String firstName, String lastName, String email, String phone) {
 
         db = this.getWritableDatabase();
-
         try {
             ContentValues contentValues = new ContentValues();
             contentValues.put(FIRSTNAME, firstName);
@@ -104,13 +101,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Friend> search(String keyword) {
-        List<Friend> friends = null;
+        List<Friend> friends = new ArrayList<>();
         try {
             SQLiteDatabase sqLiteDatabase = getReadableDatabase();
             Cursor cursor = sqLiteDatabase.rawQuery("select * from " + TABLE_NAME + " where " + LASTNAME + " like ? or " + EMAIL + " like ? or " + PHONE + " like ? or " + FIRSTNAME + " like ?"
                     , new String[]{"%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%"});
             if (cursor.moveToFirst()) {
-                friends = new ArrayList<>();
                 do {
                     Friend friend = new Friend();
                     friend.setId(cursor.getInt(0));
@@ -122,11 +118,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 } while (cursor.moveToNext());
             }
         } catch (Exception e) {
-            friends = null;
+            e.printStackTrace();
         }
         return friends;
     }
 
 
 }
-

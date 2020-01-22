@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="@string/fname"
-            android:inputType="text" />
+            android:inputType="textCapWords" />
 
     </LinearLayout>
 
@@ -51,7 +51,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
             android:hint="@string/lname"
-            android:inputType="text" />
+            android:inputType="textCapWords" />
     </LinearLayout>
 
     <LinearLayout

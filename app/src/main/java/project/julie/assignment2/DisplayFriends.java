@@ -14,7 +14,6 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +26,6 @@ public class DisplayFriends extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_friends);
-
 
         DatabaseHelper dbHelper = new DatabaseHelper(this);
         List<Friend> friends = dbHelper.allFriends();
@@ -53,10 +51,6 @@ public class DisplayFriends extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-//        dbHelper = new DatabaseHelper();
-
-
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
